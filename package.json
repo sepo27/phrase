@@ -1,19 +1,19 @@
 {
-  "name": "@sepo27/ts-lib",
-  "version": "0.1.1",
-  "description": "Ts lib boilerplate",
-  "main": "lib/index.js",
+  "name": "@sepo27/phrase",
+  "version": "0.0.0",
+  "description": "Phrase app client",
+  "main": "dist/index.js",
   "scripts": {
     "compile": "tsc -p tsconfig.json",
     "compile:publish": "tsc -p tsconfig-publish.json",
     "lint:base": "eslint -c ./.eslintrc --ext .ts --ext .js src",
     "lint": "npm run lint:base src",
     "test": "jest -c jest.config.json src",
-    "prepublish": "npm run lint && npm run test && npm run compile:publish"
+    "prepublishOnly": "npm run lint && npm run test && npm run compile:publish"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sepo27/ts-lib.git"
+    "url": "git+https://github.com/sepo27/phrase.git"
   },
   "author": "Sergey Poskachey",
   "license": "ISC",
