@@ -1,28 +1,78 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-set -e
+###
+### To disable precommit hook: "git config precommit.disable 1"
+###
 
-# to disable precommit hook: "git config precommit.disable 1"
+### Lib ###
+
 disable=`grep -Pzo '\[precommit\]\s+disable\s+=\s+1' .git/config &> /dev/null || false`
 if [ "$disable" ]; then
   exit 0
 fi
 
 diff() {
-  git diff-index --name-only HEAD
+  git diff-index --name-only HEAD --diff-filter ACMRTUXB
 }
 
 grepTypes() {
-  diff | grep -Eq "\.($1)$"
-  return $?
+  res=`diff | grep -Ec "\.($1)$"`
+  [[ $res == 0 ]] && return 1 || return 0
 }
 
-# run eslint
-if grepTypes "js|ts"
+print() {
+  printf "$1" "${@:2}"
+}
+
+println() {
+  print "$1\n" "${@:2}"
+}
+
+msg() {
+  print "[precommit] $1: $2" "${@:3}"
+}
+
+infom() {
+  msg "info" "${@:1}"
+}
+
+info() {
+  infom "$1\n" "${@:2}"
+}
+
+### Main ###
+
+# Lint
+
+if grepTypes "ts|tsx|js|jsx";
 then
-  echo "=== Running lint"
-  npm run lint:base `diff | grep -P "\.(js|jsx)$"`
-  
-  echo "\n=== Running tests"
-  npm run test
+  infom "Linting..."
+
+  ./node_modules/.bin/eslint -c ./.eslintrc --quiet `diff | grep -P "\.(ts|tsx|js|jsx)$"` || exit 1
+
+  println "done."
+fi
+
+# Dry compile
+
+# TODO: Accessors are only available when targeting ECMAScript 5 and higher
+
+if grepTypes "ts|tsx";
+then
+  infom "Dry compiling..."
+
+  ./node_modules/.bin/tsc --noEmit `diff | grep -P "\.(ts|tsx)$"` || exit 1
+
+  println "done."
+fi
+
+# Test
+
+if grepTypes "ts|tsx";
+then
+  infom "Testing..."
+
+  LIBJ_SKIP_TEST_LOG=1 ./node_modules/.bin/jest -c ./jest.config.js -o || exit 1
+
+  println "done."
 fi
