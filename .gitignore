@@ -2,10 +2,12 @@
 .idea
 *.log
 npm-debug.log*
-.lock
+*.lock
 .env
-.bak
+*.bak
+*.tgz
 
 # Project
 node_modules
-lib
+dist
+.sandbox

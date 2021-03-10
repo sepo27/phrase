@@ -55,13 +55,14 @@ fi
 
 # Dry compile
 
-# TODO: Accessors are only available when targeting ECMAScript 5 and higher
+# TODO: only dry-compile commited files ?
 
 if grepTypes "ts|tsx";
 then
   infom "Dry compiling..."
 
-  ./node_modules/.bin/tsc --noEmit `diff | grep -P "\.(ts|tsx)$"` || exit 1
+#  ./node_modules/.bin/tsc --noEmit `diff | grep -P "\.(ts|tsx)$"` || exit 1
+  ./node_modules/.bin/tsc -p ./tsconfig.json --noEmit || exit 1
 
   println "done."
 fi
@@ -72,7 +73,7 @@ if grepTypes "ts|tsx";
 then
   infom "Testing..."
 
-  LIBJ_SKIP_TEST_LOG=1 ./node_modules/.bin/jest -c ./jest.config.js -o || exit 1
+  ./node_modules/.bin/jest -c ./jest.config.js -o || exit 1
 
   println "done."
 fi
