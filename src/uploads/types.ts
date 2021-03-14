@@ -8,6 +8,7 @@ export interface PhraseUploadsPostOptions {
   file_format?: string,
   locale_id?: string,
   tags?: string | string[],
+  update_translations?: 'true' | 'false',
 }
 
 export interface PhraseUpload {
