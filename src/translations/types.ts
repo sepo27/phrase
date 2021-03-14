@@ -19,3 +19,7 @@ export interface PhraseTranslation {
   created_at: string,
   updated_at: string
 }
+
+export interface BulkUnverifyTranslationsResData {
+  records_affected: number,
+}

@@ -8,6 +8,7 @@ export const PhraseUri = {
   UPLOADS: '/uploads',
   KEYS: '/keys',
   TRANSLATIONS: '/translations',
+  UNVERIFY: '/unverify',
 
   /*** Getters ***/
 
@@ -17,5 +18,9 @@ export const PhraseUri = {
 
   keyTranslations(keyId: string): string {
     return this.KEYS + `/${keyId}` + this.TRANSLATIONS;
+  },
+
+  translationsUnverify(): string {
+    return this.TRANSLATIONS + this.UNVERIFY;
   },
 };

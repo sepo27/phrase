@@ -1,12 +1,14 @@
 import { HttpClient } from '../../lib/http/main/HttpClient';
 import { PhrasePager, PhrasePagerDefaultOptions } from '../PhrasePager';
-import { PhraseTranslation } from './types';
+import { BulkUnverifyTranslationsResData, PhraseTranslation } from './types';
 import { PhraseUri } from '../PhraseUri';
 import { PhraseWideSearch } from '../search/PhraseWideSearch';
 import { PhraseTranslationsSearchQuery } from './PhraseTranslationsSearchQuery';
 import { PhraseKeysSearchQuery } from '../keys/PhraseKeysSearchQuery';
 import { PhraseKeysClient } from '../keys/PhraseKeysClient';
 import { PhraseTranslationsKeyRef } from './PhraseTranslationsKeyRef';
+import { PhraseTranslationsUnverifyQuery } from './PhraseTranslationsUnverifyQuery';
+import { HttpMethod } from '../../lib/http/meta/HttpMethod';
 
 interface ListOptions {
   search?: PhraseWideSearch<PhraseTranslationsSearchQuery>,
@@ -68,6 +70,17 @@ export class PhraseTranslationsClient {
     };
 
     return new PhrasePager<PhraseTranslation>(request);
+  }
+
+  public unverify(
+    search: PhraseWideSearch<PhraseTranslationsUnverifyQuery>,
+  ): Promise<BulkUnverifyTranslationsResData> {
+    return this.http
+      .request<BulkUnverifyTranslationsResData>(PhraseUri.translationsUnverify(), {
+        method: HttpMethod.PATCH,
+        form: search.dump(),
+      })
+      .then(res => res.data);
   }
 
   /*** Private ***/

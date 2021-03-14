@@ -11,6 +11,7 @@ export class PhraseTMock {
     this.sinon = sinonLib.createSandbox();
     this.fs = ModuleMock('fs-extra', this.sinon);
     this.http = ClassMock(HttpClientModule, {
+      'request()': null,
       'get()': null,
       'post()': null,
     }, this.sinon);

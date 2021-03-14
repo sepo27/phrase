@@ -9,6 +9,8 @@ import { PhraseTranslationsSearchQuery } from '../../src/translations/PhraseTran
 import { phraseKeyGen } from '../keys/phraseKeyGen';
 import { PhraseKeysSearchQuery } from '../../src/keys/PhraseKeysSearchQuery';
 import { PhraseTranslationsKeyRef } from '../../src/translations/PhraseTranslationsKeyRef';
+import { PhraseTranslationsUnverifyQuery } from '../../src/translations/PhraseTranslationsUnverifyQuery';
+import { HttpMethod } from '../../lib/http/meta/HttpMethod';
 
 describe('PhraseTranslationsClient', () => {
   let bench: PhraseTBench;
@@ -220,6 +222,43 @@ describe('PhraseTranslationsClient', () => {
     ]);
 
     expect(res).toEqual([translation1, translation2]);
+  });
+
+  it('unverify() with search', () => {
+    const search = new PhraseWideSearch().query(
+      new PhraseTranslationsUnverifyQuery().tags(['foo']),
+    );
+
+    bench.mock.http.request.resolves(httpResponseGen({
+      data: {
+        records_affected: 0,
+      },
+    }));
+
+    client().unverify(search);
+
+    expect(bench.mock.http.request.calledOnce).toBeTruthy();
+    expect(bench.mock.http.request.getCall(0).args).toMatchObject([
+      PhraseUri.translationsUnverify(),
+      {
+        method: HttpMethod.PATCH,
+        form: search.dump(),
+      },
+    ]);
+  });
+
+  it('unverify() resolves with records affected', () => {
+    const res = httpResponseGen({
+      data: {
+        records_affected: 0,
+      },
+    });
+
+    bench.mock.http.request.resolves(res);
+
+    return expect(client().unverify(new PhraseWideSearch())).resolves.toMatchObject({
+      records_affected: 0,
+    });
   });
 
   /*** Lib ***/
