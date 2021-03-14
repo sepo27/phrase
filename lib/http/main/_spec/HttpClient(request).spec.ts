@@ -141,13 +141,13 @@ describe('HttpClient', () => {
     ).toThrow(new HttpConfigError('Cannot accept both data and formData in request'));
   });
 
-  it('request() errors out when trying form with methods othern than POST / PUT', () => {
+  it('request() errors out when trying form with methods other than POST / PUT / PATCH', () => {
     expect(
       () => new HttpClient().request('', {
         method: HttpMethod.GET,
         form: {},
       }),
-    ).toThrow(new HttpConfigError('Form data is only allowed with POST / PUT methods'));
+    ).toThrow(new HttpConfigError('Form data is only allowed with POST / PUT / PATCH methods'));
   });
 
   it('request() with file in form', () => {

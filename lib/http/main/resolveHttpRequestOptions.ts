@@ -17,8 +17,8 @@ export const resolveHttpRequestOptions = (options: HttpRequestOptions) => {
     }
 
     const method = nextOptions.method ? nextOptions.method.toUpperCase() : '';
-    if ([HttpMethod.POST, HttpMethod.PUT].indexOf(method as HttpMethod) < 0) {
-      throw new HttpConfigError('Form data is only allowed with POST / PUT methods');
+    if ([HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH].indexOf(method as HttpMethod) < 0) {
+      throw new HttpConfigError('Form data is only allowed with POST / PUT / PATCH methods');
     }
 
     const form = new FormData();
