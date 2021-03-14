@@ -4,6 +4,7 @@ import * as HttpClientModule from '../../lib/http/main/HttpClient';
 import * as PhraseUploadsClientModule from '../../src/uploads/PhraseUploadsClient';
 import * as PhraseKeysClientModule from '../../src/keys/PhraseKeysClient';
 import * as PhraseTranslationsClientModule from '../../src/translations/PhraseTranslationsClient';
+import * as PhrasePagerModule from '../../src/PhrasePager';
 
 export class PhraseTMock {
   constructor() {
@@ -14,6 +15,7 @@ export class PhraseTMock {
       'post()': null,
     }, this.sinon);
     this.phrase = {
+      pager: ClassMock(PhrasePagerModule, this.sinon),
       uploads: ClassMock(PhraseUploadsClientModule, this.sinon),
       keys: ClassMock(PhraseKeysClientModule, {
         'list()': null,

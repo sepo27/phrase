@@ -2,14 +2,15 @@
   "name": "@sepo27/phrase",
   "version": "0.0.1",
   "description": "Phrase app client",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "compile": "tsc -p tsconfig.json",
     "compile:publish": "tsc -p tsconfig-publish.json",
     "lint:base": "eslint -c ./.eslintrc --ext .ts --ext .js src",
     "lint": "npm run lint:base src",
     "test": "jest -c jest.config.js src",
-    "prepublishOnly": "npm run lint && npm run test && npm run compile:publish"
+    "prepare": "npm run compile:publish",
+    "prepublishOnly": "npm run lint && npm run test"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "form-data": "^4.0.0",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^8.1.0",
     "object-hash": "^2.1.1"
   }
 }

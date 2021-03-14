@@ -22,7 +22,7 @@ describe('PhraseTranslationsClient', () => {
     bench.restore();
   });
 
-  it('list() resolves with pages', async () => {
+  it('list() resolves with pagination', async () => {
     const perPage = PhrasePagerDefaultOptions.perPage;
 
     bench.mock.http.get
@@ -78,6 +78,17 @@ describe('PhraseTranslationsClient', () => {
       params: {
         ...search.dump(),
       },
+    });
+  });
+
+  it('list() with per page', () => {
+    bench.mock.phrase.pager.$constructor;
+
+    client().list({ perPage: 10 });
+
+    expect(bench.mock.phrase.pager.$constructor.calledOnce).toBeTruthy();
+    expect(bench.mock.phrase.pager.$constructor.getCall(0).args[1]).toMatchObject({
+      perPage: 10,
     });
   });
 

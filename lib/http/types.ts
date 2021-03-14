@@ -1,7 +1,8 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { LooseObject, MapS } from '../types';
 
-type FormDataOpt = MapS<string>;
+// TODO: should be proper type from FormData lib
+type FormDataOpt = MapS<any>;
 
 export interface HttpRequestOptions extends AxiosRequestConfig{
   form?: FormDataOpt,

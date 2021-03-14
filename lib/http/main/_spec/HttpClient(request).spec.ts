@@ -176,7 +176,26 @@ describe('HttpClient', () => {
     ]);
   });
 
-  it('request() errors out for invlaid file in form', () => {
+  it('request() with file in form and some other params', () => {
+    const filename = '/foo.json';
+
+    bench.mock.fs.existsSync.withArgs(filename).returns(true);
+    bench.mock.fs.createReadStream;
+    bench.mock.formData.append;
+    bench.mock.formData.getHeaders;
+
+    expect(
+      () => new HttpClient().request('', {
+        method: HttpMethod.POST,
+        form: {
+          file: formDataFilename(filename),
+          foo: false,
+        },
+      }),
+    ).not.toThrow();
+  });
+
+  it('request() errors out for invalid file in form', () => {
     const filename = '/dummy.json';
 
     bench.mock.fs.existsSync.withArgs(filename).returns(false);

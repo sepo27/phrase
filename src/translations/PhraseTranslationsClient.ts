@@ -1,5 +1,5 @@
 import { HttpClient } from '../../lib/http/main/HttpClient';
-import { PhrasePager } from '../PhrasePager';
+import { PhrasePager, PhrasePagerDefaultOptions } from '../PhrasePager';
 import { PhraseTranslation } from './types';
 import { PhraseUri } from '../PhraseUri';
 import { PhraseWideSearch } from '../search/PhraseWideSearch';
@@ -10,6 +10,7 @@ import { PhraseTranslationsKeyRef } from './PhraseTranslationsKeyRef';
 
 interface ListOptions {
   search?: PhraseWideSearch<PhraseTranslationsSearchQuery>,
+  perPage?: number,
 }
 
 export class PhraseTranslationsClient {
@@ -20,7 +21,13 @@ export class PhraseTranslationsClient {
 
   /*** Public ***/
 
-  public list({ search }: ListOptions = {}): PhrasePager<PhraseTranslation> {
+  public list(
+    {
+      search,
+      // TODO: handle default perPage in Pager itself properly
+      perPage: perPageOpt = PhrasePagerDefaultOptions.perPage,
+    }: ListOptions = {},
+  ): PhrasePager<PhraseTranslation> {
     const request = (page, perPage) => this.http
       .get<PhraseTranslation[]>(PhraseUri.TRANSLATIONS, {
         params: {
@@ -31,7 +38,7 @@ export class PhraseTranslationsClient {
       })
       .then(res => res.data);
 
-    return new PhrasePager<PhraseTranslation>(request);
+    return new PhrasePager<PhraseTranslation>(request, { perPage: perPageOpt });
   }
 
   /***

@@ -9,7 +9,6 @@ interface Options {
 const DefaultOptions: Options = {
   perPage: 25,
 };
-export { DefaultOptions as PhrasePagerDefaultOptions };
 
 export class PhrasePager<T = LooseObject> {
   // eslint-disable-next-line no-useless-constructor,no-empty-function
@@ -53,3 +52,6 @@ export class PhrasePager<T = LooseObject> {
   private page: number = 1;
   private ended: boolean = false;
 }
+
+// TODO: move out to constants
+export { DefaultOptions as PhrasePagerDefaultOptions };

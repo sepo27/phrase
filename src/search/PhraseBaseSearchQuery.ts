@@ -14,6 +14,7 @@ export abstract class PhraseBaseSearchQuery implements PhraseSearchQueryInterfac
   }
 
   public get isEmpty(): boolean { return !this.params.length; }
+  public get isNotEmpty(): boolean { return !this.isEmpty; }
 
   /*** Protected ***/
 
