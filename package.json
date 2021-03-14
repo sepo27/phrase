@@ -1,6 +1,6 @@
 {
   "name": "@sepo27/phrase",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha",
   "description": "Phrase app client",
   "main": "dist/src/index.js",
   "scripts": {
